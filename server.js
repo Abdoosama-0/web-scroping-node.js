@@ -9,7 +9,7 @@ app.use(cors());
 app.get("/" , (req,res)=>{
   res.json({data:"hello"})
 })
-app.get("/api/topMovies", async (req, res) => {
+app.get("/api/topMovies1", async (req, res) => {
   try {
     const browser = await puppeteer.launch({
       headless: "new",
