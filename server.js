@@ -11,7 +11,11 @@ app.get("/" , (req,res)=>{
 })
 app.get("/api/topMovies", async (req, res) => {
   try {
-    const browser = await puppeteer.launch({ headless: "new" }); // استخدام وضع Headless الجديد
+    const browser = await puppeteer.launch({
+      headless: "new",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
+    
     const page = await browser.newPage();
 
     await page.setUserAgent(
@@ -60,7 +64,7 @@ app.get("/api/topMovies", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`✅ Server running on http://localhost:${PORT}/movies`));
+app.listen(PORT, () => console.log(`✅ Server running on http://localhost:${PORT}/api/topMovies`));
 
 
 
