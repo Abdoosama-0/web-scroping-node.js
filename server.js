@@ -1,6 +1,5 @@
 const express = require("express");
 const puppeteer = require("puppeteer-core");
-const chromium = require("chrome-aws-lambda");
 const cors = require("cors");
 
 const app = express();
@@ -15,30 +14,30 @@ app.get("/", (req, res) => {
 app.get("/api/topMovies", async (req, res) => {
   try {
     const browser = await puppeteer.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath,
-      headless: chromium.headless,
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/chromium-browser",
+      headless: true,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--single-process"
+      ],
     });
 
     const page = await browser.newPage();
-
     await page.setUserAgent(
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, مثل Gecko) Chrome/91.0.4472.124 Safari/537.36"
     );
 
-    await page.goto("https://www.imdb.com/chart/top/?ref_=nv_mv_250", {
-      waitUntil: "domcontentloaded",
-    });
-
+    await page.goto("https://www.imdb.com/chart/top/?ref_=nv_mv_250", { waitUntil: "domcontentloaded" });
     await page.waitForSelector(".ipc-metadata-list-summary-item");
     await page.evaluate(() => window.scrollBy(0, window.innerHeight));
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     const movies = await page.evaluate(() => {
       return [...document.querySelectorAll(".ipc-metadata-list-summary-item")].map((movie, index) => {
         const elements = [...movie.querySelectorAll(".URyjV")];
-
         return {
           rank: index + 1,
           title: movie.querySelector(".ipc-title__text")?.innerText || "غير متوفر",
@@ -60,11 +59,19 @@ app.get("/api/topMovies", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`✅ Server running on http://localhost:${PORT}/api/topMovies`));
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+
+
+
+
+
+
+
+
 
 
 //==========================================================================
-// //npm install puppeteer-core@10.4.0 chrome-aws-lambda cors
+////npm install puppeteer-core@10.4.0 chrome-aws-lambda cors
 // const express = require("express");
 // const puppeteer = require("puppeteer");
 // const cors = require("cors");
