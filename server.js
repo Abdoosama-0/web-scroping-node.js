@@ -6,8 +6,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-
-app.get("/movies", async (req, res) => {
+app.get("/" , (req,res)=>{
+  res.json({data:"hello"})
+})
+app.get("/api/topMovies", async (req, res) => {
   try {
     const browser = await puppeteer.launch({ headless: "new" }); // استخدام وضع Headless الجديد
     const page = await browser.newPage();
@@ -51,7 +53,7 @@ app.get("/movies", async (req, res) => {
         // .map(element => element.innerText.trim()) // استخراج النصوص
         // .join(" | ") || "غير متوفر",
     await browser.close();
-    res.json(movies);
+    res.json({topMovies:movies});
   } catch (error) {
     console.error("❌ خطأ:", error.message);
     res.status(500).json({ error: "فشل في جلب البيانات" });
