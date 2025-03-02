@@ -1,18 +1,24 @@
 {
-  "name": "web-scraping",
+  "name": "node-scraping",
   "version": "1.0.0",
-  "description": "Web scraping API using Puppeteer",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server",
+    "dev": "nodemon server"
   },
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "express": "^4.18.2",
-    "puppeteer-core": "^21.0.0",
-    "cors": "^2.8.5"
-  },
-  "engines": {
-    "node": "18.x"
+    "@sparticuz/chromium": "^132.0.0",
+    "axios": "^1.8.1",
+    "cheerio": "^1.0.0",
+    "chrome-aws-lambda": "^10.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9",
+    "playwright-core": "^1.50.1",
+    "puppeteer": "^24.3.0",
+    "puppeteer-core": "^10.4.0"
   }
 }
-
