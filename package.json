@@ -4,8 +4,6 @@
   "main": "server.js",
   "scripts": {
     "start": "node server",
-    "postinstall": "apt-get update && apt-get install -y chromium-browser libatk1.0-0 libx11-xcb1 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libasound2",
-
     "dev": "nodemon server"
   },
   "author": "",
