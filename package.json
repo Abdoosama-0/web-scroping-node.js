@@ -4,6 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server",
+     "postinstall": "apt-get update && apt-get install -y chromium",
     "dev": "nodemon server"
   },
   "author": "",
